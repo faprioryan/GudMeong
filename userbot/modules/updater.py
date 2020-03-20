@@ -16,7 +16,7 @@ import sys
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
-from userbot import CMD_HELP, bot, HEROKU_APIKEY, HEROKU_APPNAME, UPSTREAM_REPO_URL
+from userbot import CMD_HELP, bot, HEROKU_API_KEY, HEROKU_APP_NAME, UPSTREAM_REPO_URL
 from userbot.events import register
 
 requirements_path = path.join(
@@ -132,7 +132,7 @@ async def upstream(ups):
     # We're in a Heroku Dyno, handle it's memez.
     if HEROKU_APIKEY is not None:
         import heroku3
-        heroku = heroku3.from_key(HEROKU_APIKEY)
+        heroku = heroku3.from_key(HEROKU_API_KEY)
         heroku_app = None
         heroku_applications = heroku.apps()
         if not HEROKU_APPNAME:
@@ -142,7 +142,7 @@ async def upstream(ups):
             repo.__del__()
             return
         for app in heroku_applications:
-            if app.name == HEROKU_APPNAME:
+            if app.name == HEROKU_APP_NAME:
                 heroku_app = app
                 break
         if heroku_app is None:
